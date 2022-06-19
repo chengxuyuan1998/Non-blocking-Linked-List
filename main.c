@@ -11,14 +11,14 @@ struct node {
 
 typedef struct node Node;
 
-Node * list;
+Node *list;
 
 bool is_marked(Node *n) {
     return (unsigned long) n->next & (unsigned long) 0x1;
 }
 
 void mark(Node *n) {
-    n->next = (Node *) ((unsigned long) n | (unsigned long) 0x1);
+    n->next = (Node *) ((unsigned long) n->next | (unsigned long) 0x1);
 }
 
 Node *get_next(Node *n) {
@@ -96,8 +96,8 @@ void print_list(Node *head) {
     }
 }
 
-void work1() {
-    for (int i = 0; i < 5; ++i) {
+void insert_node() {
+    for (int i = 0; i < 10; ++i) {
         insert(list, i);
     }
 }
@@ -108,22 +108,34 @@ void work2() {
     }
 }
 
+void delete_node() {
+    delete(list, 5);
+}
+
+
+void delete_node1() {
+    delete(list, 2);
+}
+
+void delete_node2() {
+    delete(list, 4);
+}
+
 int main() {
     list = initialize_list();
     pthread_t thread1;
     pthread_t thread2;
     pthread_t thread3;
     pthread_t thread4;
-    pthread_create(&thread1, NULL, work1, NULL);
-    pthread_create(&thread2, NULL, work2, NULL);
-    pthread_create(&thread3, NULL, work2, NULL);
-    pthread_create(&thread4, NULL, work2, NULL);
-
+    pthread_create(&thread1, NULL, insert_node, NULL);
+    pthread_create(&thread2, NULL, delete_node, NULL);
+    pthread_create(&thread3, NULL, delete_node1, NULL);
+    pthread_create(&thread4, NULL, delete_node2, NULL);
+//
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
     pthread_join(thread3, NULL);
     pthread_join(thread4, NULL);
-//    work1();
     print_list(list);
 
 }
