@@ -88,6 +88,26 @@ bool delete(Node *head, const int val) {
     }
 }
 
+bool contains(Node* head, int val) {
+    Node* curr = head->next;
+
+    while (curr != NULL) {
+        if (is_marked(curr)) {
+            curr = get_next(curr);
+            continue;
+        }
+        if (curr->val == val) {
+            break;
+        }
+        curr = get_next(curr);
+    }
+
+    if (curr == NULL) {
+        return false;
+    }
+    return true;
+}
+
 void print_list(Node *head) {
     Node *tmp = head->next;
     while (tmp != NULL) {
@@ -96,14 +116,10 @@ void print_list(Node *head) {
     }
 }
 
+
+
 void insert_node() {
     for (int i = 0; i < 10; ++i) {
-        insert(list, i);
-    }
-}
-
-void work2() {
-    for (int i = 5; i < 10; ++i) {
         insert(list, i);
     }
 }
